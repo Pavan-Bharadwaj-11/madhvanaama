@@ -83,11 +83,11 @@
         <!-- Section Navigation Tabs -->
         <nav class="bg-amber-100/95 border-t border-b border-amber-300/80 shadow-inner">
             <div class="max-w-4xl mx-auto px-2 py-1.5 flex justify-around overflow-x-auto gap-1 text-xs md:text-sm font-medium" id="nav-tabs">
-                <button onclick="scrollToSection('pallavi', this)" class="nav-btn bg-[#8B3A00] text-white px-3 py-1 rounded-full whitespace-nowrap transition">ಪಲ್ಲವಿ</button>
-                <button onclick="scrollToSection('hanumavatara', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಹನುಮಾವತಾರ</button>
-                <button onclick="scrollToSection('bhimavatara', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಭೀಮಾವತಾರ</button>
-                <button onclick="scrollToSection('madhvavatara', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಮಧ್ವಾವತಾರ</button>
-                <button onclick="scrollToSection('phalasruthi', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಫಲಶ್ರುತಿ</button>
+                <button id="tab-pallavi" onclick="scrollToSection('pallavi', this)" class="nav-btn bg-[#8B3A00] text-white px-3 py-1 rounded-full whitespace-nowrap transition">ಪಲ್ಲವಿ</button>
+                <button id="tab-hanumavatara" onclick="scrollToSection('hanumavatara', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಹನುಮಾವತಾರ</button>
+                <button id="tab-bhimavatara" onclick="scrollToSection('bhimavatara', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಭೀಮಾವತಾರ</button>
+                <button id="tab-madhvavatara" onclick="scrollToSection('madhvavatara', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಮಧ್ವಾವತಾರ</button>
+                <button id="tab-phalasruthi" onclick="scrollToSection('phalasruthi', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಫಲಶ್ರುತಿ</button>
             </div>
         </nav>
     </header>
@@ -111,6 +111,15 @@
     <script>
         let currentLang = 'kn';
 
+        // Tab Labels Configuration
+        const tabLabels = {
+            pallavi: { kn: 'ಪಲ್ಲವಿ', en: 'Pallavi' },
+            hanumavatara: { kn: 'ಹನುಮಾವತಾರ', en: 'Hanumavatara' },
+            bhimavatara: { kn: 'ಭೀಮಾವತಾರ', en: 'Bhimavatara' },
+            madhvavatara: { kn: 'ಮಧ್ವಾವತಾರ', en: 'Madhvavatara' },
+            phalasruthi: { kn: 'ಫಲಶ್ರುತಿ', en: 'Phalasruthi' }
+        };
+
         // 9 QR Code Groups Configuration
         const qrGroups = {
             'group-1': [1, 2, 3, 4, 5],
@@ -131,18 +140,17 @@
                 num: '',
                 group: 'group-1',
                 kn: `ಜಯ ಜಯ ಜಗತ್ರಾಣ ಜಗದೊಳಗೆ ಸುತ್ರಾಣ\nಅಖಿಳ ಗುಣ ಸದ್ಧಾಮ ಮಧ್ವನಾಮ`,
-                en: `Jaya jaya jagatrana, jagadolage sutrana\nAkhila guna sadhdhama madhvanama`,
-                highlights: { kn: [], en: [] }
+                en: `Jaya jaya jagatrana, jagadolage sutrana\nAkhila guna sadhdhama madhvanama`
             },
             {
                 section: 'pallavi',
                 id: 1,
                 num: '1',
                 group: 'group-1',
-                kn: `ಆವ <span class="phrase-highlight">ಕಚ್ಚಪ</span> ರೂಪದಿಂದ <span class="phrase-highlight">ಲಂಡೋದಕವ</span> ಓವಿ ಧರಿಸಿದ <span class="phrase-highlight">ಶೇಷಮೂರುತಿಯನು</span>\nಆವವನ ಬಳಿ ವಿಡಿದು ಹರಿಯಸುರರೆಯ್ದುವರು\nಆ ವಾಯು ನಮ್ಮ ಕುಲಗುರುರಾಯನು || 1 ||`,
-                en: `Ava <span class="phrase-highlight">kachchhapa</span> rupa dinda <span class="phrase-highlight">landodakava</span> Ovi dharisida <span class="phrase-highlight">sheshamurutiyanu</span>\nAvavana balivididu hariya suraraiduvaro\nA vayu namma kula guru rayanu || 1 ||`,
-                rawKn: `ಆವ ಕಚ್ಚಪ ರೂಪದಿಂದ ಲಂಡೋದಕವ ಓವಿ ಧರಿಸಿದ ಶೇಷಮೂರುತಿಯನು\nಆವವನ ಬಳಿ ವಿಡಿದು ಹರಿಯಸುರರೆಯ್ದುವರು\nಆ ವಾಯು ನಮ್ಮ ಕುಲಗುರುರಾಯನು || 1 ||`,
-                rawEn: `Ava kachchhapa rupa dinda landodakava Ovi dharisida sheshamurutiyanu\nAvavana balivididu hariya suraraiduvaro\nA vayu namma kula guru rayanu || 1 ||`
+                kn: `ಆವ <span class="phrase-highlight">ಕಚ್ಚಪ</span> ರೂಪದಿಂದ\n<span class="phrase-highlight">ಲಂಡೋದಕವ</span> ಓವಿ ಧರಿಸಿದ <span class="phrase-highlight">ಶೇಷಮೂರುತಿಯನು</span>\nಆವವನ ಬಳಿ ವಿಡಿದು ಹರಿಯಸುರರೆಯ್ದುವರು\nಆ ವಾಯು ನಮ್ಮ ಕುಲಗುರುರಾಯನು || 1 ||`,
+                en: `Ava <span class="phrase-highlight">kachchhapa</span> rupa dinda\n<span class="phrase-highlight">landodakava</span> Ovi dharisida <span class="phrase-highlight">sheshamurutiyanu</span>\nAvavana balivididu hariya suraraiduvaro\nA vayu namma kula guru rayanu || 1 ||`,
+                rawKn: `ಆವ ಕಚ್ಚಪ ರೂಪದಿಂದ\nಲಂಡೋದಕವ ಓವಿ ಧರಿಸಿದ ಶೇಷಮೂರುತಿಯನು\nಆವವನ ಬಳಿ ವಿಡಿದು ಹರಿಯಸುರರೆಯ್ದುವರು\nಆ ವಾಯು ನಮ್ಮ ಕುಲಗುರುರಾಯನು || 1 ||`,
+                rawEn: `Ava kachchhapa rupa dinda\nlandodakava Ovi dharisida sheshamurutiyanu\nAvavana balivididu hariya suraraiduvaro\nA vayu namma kula guru rayanu || 1 ||`
             },
             {
                 section: 'pallavi',
@@ -351,9 +359,9 @@
                 id: 22,
                 num: '22',
                 group: 'group-6',
-                kn: `ನಾರಿರೋದನಕೇಳಿ ಮನಮರುಗಿ ಗುರುಸುತನ\nಹಾರಿ ಹಿಡಿದು ಶಿರೋರತ್ನ ಕಿತ್ತಿ ತೆಗೆದ\nನೀರೊಳಡಗಿದ್ದ ದುರ್ಯೋಧನನ ಹೊರಗೆಡಹಿ\nಉರುದ್ವಯ ತನ್ನ ಗದೆಯಿಂದ ಮುರಿದ || 22 ||`,
+                kn: `ನಾರಿರೋದನಕೇಳಿ ಮನಮರುಗಿ ಗುರುಸುತನ\nಹಾರಿ ಹಿಡಿದು ಶಿರೋರತ್ನ ಕಿತ್ತಿ ತೆಗೆದ\nನೀರೊಳಡಗಿದ್ದ ದುರ್ಯೋಧನನ ಹೊರಗೆಡಹಿ\nಉರುದ್ವಯ ತನ್ನ ಗದೆಯಿಂದ murida || 22 ||`,
                 en: `Narirodana keli manamarugi gurusutana\nHarhididu shiroratna kitti tegeda\nNiroladagidda duryodhanana horagedahi\nUruyuga tanna gadeyinda murida || 22 ||`,
-                rawKn: `ನಾರಿರೋದನಕೇಳಿ ಮನಮರುಗಿ ಗುರುಸುತನ\nಹಾರಿ ಹಿಡಿದು ಶಿರೋರತ್ನ ಕಿತ್ತಿ ತೆಗೆದ\nನೀರೊಳಡಗಿದ್ದ ದುರ್ಯೋಧನನ ಹೊರಗೆಡಹಿ\nಉರುದ್ವಯ ತನ್ನ ಗದೆಯಿಂದ ಮುರಿದ || 22 ||`,
+                rawKn: `ನಾರಿರೋದನಕೇಳಿ ಮನಮರುಗಿ ಗುರುಸುತನ\nಹಾರಿ ಹಿಡಿದು ಶಿರೋರತ್ನ ಕಿತ್ತಿ ತೆಗೆದ\nನೀರೊಳಡಗಿದ್ದ ದುರ್ಯೋಧನನ ಹೊರಗೆಡಹಿ\nಉರುದ್ವಯ ತನ್ನ ಗದೆಯಿಂದ murida || 22 ||`,
                 rawEn: `Narirodana keli manamarugi gurusutana\nHarhididu shiroratna kitti tegeda\nNiroladagidda duryodhanana horagedahi\nUruyuga tanna gadeyinda murida || 22 ||`
             },
             {
@@ -511,11 +519,19 @@
         function toggleLanguage() {
             currentLang = currentLang === 'kn' ? 'en' : 'kn';
             
+            // Header elements
             document.getElementById('app-title').innerText = currentLang === 'kn' ? 'ಶ್ರೀ ಮಧ್ವನಾಮ' : 'Madhavanama';
             document.getElementById('app-subtitle').innerText = currentLang === 'kn' ? 'ಶ್ರೀ ಶ್ರೀಪಾದರಾಜ ವಿರಚಿತ' : 'Composed by Sri Sripadaraja';
             document.getElementById('lang-btn-label').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
             document.getElementById('audio-btn-text').innerText = currentLang === 'kn' ? 'ಆಡಿಯೋ ಕೇಳಿ' : 'Listen Audio';
             document.getElementById('search-input').placeholder = currentLang === 'kn' ? 'ಶ್ಲೋಕ ಅಥವಾ ಸಂಖ್ಯೆಯನ್ನು ಹುಡುಕಿ...' : 'Search shloka text or number...';
+
+            // Navigation tabs
+            document.getElementById('tab-pallavi').innerText = tabLabels.pallavi[currentLang];
+            document.getElementById('tab-hanumavatara').innerText = tabLabels.hanumavatara[currentLang];
+            document.getElementById('tab-bhimavatara').innerText = tabLabels.bhimavatara[currentLang];
+            document.getElementById('tab-madhvavatara').innerText = tabLabels.madhvavatara[currentLang];
+            document.getElementById('tab-phalasruthi').innerText = tabLabels.phalasruthi[currentLang];
 
             renderShlokas();
             filterShlokas();
@@ -559,12 +575,10 @@
             const hash = window.location.hash.replace('#', '');
             if (!hash) return;
 
-            // Clear previous active highlights
             document.querySelectorAll('.shloka-card').forEach(c => c.classList.remove('card-group-active'));
 
             let targetNumbers = [];
             
-            // Check if hash matches group-X or single shloka-N
             if (qrGroups[hash]) {
                 targetNumbers = qrGroups[hash];
             } else if (hash.startsWith('shloka-')) {
