@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="kn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ಶ್ರೀ ಮಧ್ವನಾಮ - Madhavanama</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Noto Sans Kannada', 'Poppins', sans-serif;
+            background-color: #fcf8ee;
+            margin: 0;
+            padding: 0;
+            color: #3b200b;
+        }
+        .section-header, .shloka-card {
+            scroll-margin-top: 140px;
+        }
+        .shloka-card {
+            background: #ffffff;
+            border: 1px solid rgba(217, 119, 6, 0.3);
+            box-shadow: 0 4px 12px rgba(139, 58, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+        }
+        .shloka-card:hover {
+            box-shadow: 0 6px 18px rgba(139, 58, 0, 0.12);
+            border-color: rgba(217, 119, 6, 0.6);
+        }
+        /* Highlighted phrase style */
+        .phrase-highlight {
+            background-color: #fde68a;
+            color: #78350f;
+            font-weight: 700;
+            padding: 0.1rem 0.35rem;
+            border-radius: 0.25rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        /* Group card active highlight */
+        .card-group-active {
+            border-color: #d97706 !important;
+            box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.3), 0 8px 20px rgba(139, 58, 0, 0.15) !important;
+            background-color: #fffbeb !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Sticky Header -->
+    <header class="sticky top-0 z-50 bg-[#8B3A00] text-amber-50 shadow-md">
+        <div class="max-w-4xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-2">
+            <div>
+                <h1 id="app-title" class="text-xl md:text-2xl font-bold tracking-wide">ಶ್ರೀ ಮಧ್ವನಾಮ</h1>
+                <p id="app-subtitle" class="text-xs md:text-sm text-amber-200">ಶ್ರೀ ಶ್ರೀಪಾದರಾಜ ವಿರಚಿತ</p>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <!-- YouTube Audio Button -->
+                <a href="https://www.youtube.com/watch?v=S6N5-ieYT84&list=RDS6N5-ieYT84&start_radio=1&t=25s"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="bg-red-600 hover:bg-red-700 text-white text-xs md:text-sm font-medium px-3 py-1.5 rounded-full flex items-center gap-2 transition shadow">
+                    <i class="fa-brands fa-youtube text-base"></i>
+                    <span id="audio-btn-text">ಆಡಿಯೋ ಕೇಳಿ</span>
+                </a>
+
+                <!-- Language Toggle Button -->
+                <button id="lang-toggle-btn" onclick="toggleLanguage()" class="bg-amber-100 hover:bg-white text-[#8B3A00] text-xs md:text-sm font-semibold px-3 py-1.5 rounded-full border border-amber-300 transition shadow-sm flex items-center gap-1.5">
+                    <i class="fa-solid fa-language"></i>
+                    <span id="lang-btn-label">English</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section Navigation Tabs -->
+        <nav class="bg-amber-100/95 border-t border-b border-amber-300/80 shadow-inner">
+            <div class="max-w-4xl mx-auto px-2 py-1.5 flex justify-around overflow-x-auto gap-1 text-xs md:text-sm font-medium" id="nav-tabs">
+                <button onclick="scrollToSection('pallavi', this)" class="nav-btn bg-[#8B3A00] text-white px-3 py-1 rounded-full whitespace-nowrap transition">ಪಲ್ಲವಿ</button>
+                <button onclick="scrollToSection('hanumavatara', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಹನುಮಾವತಾರ</button>
+                <button onclick="scrollToSection('bhimavatara', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಭೀಮಾವತಾರ</button>
+                <button onclick="scrollToSection('madhvavatara', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಮಧ್ವಾವತಾರ</button>
+                <button onclick="scrollToSection('phalasruthi', this)" class="nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition">ಫಲಶ್ರುತಿ</button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-3xl mx-auto px-4 py-6 space-y-6">
+        <!-- Search Bar -->
+        <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-amber-700/60"></i>
+            <input type="text" id="search-input" onkeyup="filterShlokas()"
+                    placeholder="ಶ್ಲೋಕ ಅಥವಾ ಸಂಖ್ಯೆಯನ್ನು ಹುಡುಕಿ..."
+                    class="w-full pl-10 pr-4 py-2 rounded-xl bg-white border border-amber-300 focus:outline-none focus:ring-2 focus:ring-[#8B3A00] text-sm md:text-base text-amber-950 shadow-sm placeholder-amber-800/50">
+        </div>
+
+        <!-- Shlokas Container -->
+        <div id="shloka-container" class="space-y-6">
+            <!-- Content dynamically rendered via JS -->
+        </div>
+    </main>
+
+    <script>
+        let currentLang = 'kn';
+
+        // 9 QR Code Groups Configuration
+        const qrGroups = {
+            'group-1': [1, 2, 3, 4, 5],
+            'group-2': [6, 7, 8, 9],
+            'group-3': [10, 11, 12, 13],
+            'group-4': [14, 15, 16, 17],
+            'group-5': [18, 19, 20, 21],
+            'group-6': [22, 23, 24, 25],
+            'group-7': [26, 27, 28, 29],
+            'group-8': [30, 31, 32]
+        };
+
+        const shlokasData = [
+            {
+                section: 'pallavi',
+                sectionTitle: { kn: '|| ಪಲ್ಲವಿ ||', en: '|| PALLAVI ||' },
+                id: 0,
+                num: '',
+                group: 'group-1',
+                kn: `ಜಯ ಜಯ ಜಗತ್ರಾಣ ಜಗದೊಳಗೆ ಸುತ್ರಾಣ\nಅಖಿಳ ಗುಣ ಸದ್ಧಾಮ ಮಧ್ವನಾಮ`,
+                en: `Jaya jaya jagatrana, jagadolage sutrana\nAkhila guna sadhdhama madhvanama`,
+                highlights: { kn: [], en: [] }
+            },
+            {
+                section: 'pallavi',
+                id: 1,
+                num: '1',
+                group: 'group-1',
+                kn: `ಆವ <span class="phrase-highlight">ಕಚ್ಚಪ</span> ರೂಪದಿಂದ <span class="phrase-highlight">ಲಂಡೋದಕವ</span> ಓವಿ ಧರಿಸಿದ <span class="phrase-highlight">ಶೇಷಮೂರುತಿಯನು</span>\nಆವವನ ಬಳಿ ವಿಡಿದು ಹರಿಯಸುರರೆಯ್ದುವರು\nಆ ವಾಯು ನಮ್ಮ ಕುಲಗುರುರಾಯನು || 1 ||`,
+                en: `Ava <span class="phrase-highlight">kachchhapa</span> rupa dinda <span class="phrase-highlight">landodakava</span> Ovi dharisida <span class="phrase-highlight">sheshamurutiyanu</span>\nAvavana balivididu hariya suraraiduvaro\nA vayu namma kula guru rayanu || 1 ||`,
+                rawKn: `ಆವ ಕಚ್ಚಪ ರೂಪದಿಂದ ಲಂಡೋದಕವ ಓವಿ ಧರಿಸಿದ ಶೇಷಮೂರುತಿಯನು\nಆವವನ ಬಳಿ ವಿಡಿದು ಹರಿಯಸುರರೆಯ್ದುವರು\nಆ ವಾಯು ನಮ್ಮ ಕುಲಗುರುರಾಯನು || 1 ||`,
+                rawEn: `Ava kachchhapa rupa dinda landodakava Ovi dharisida sheshamurutiyanu\nAvavana balivididu hariya suraraiduvaro\nA vayu namma kula guru rayanu || 1 ||`
+            },
+            {
+                section: 'pallavi',
+                id: 2,
+                num: '2',
+                group: 'group-1',
+                kn: `<span class="phrase-highlight">ಆವವನು ದೇಹದೊಳಗಿರಲು ಹರಿ ನೆಲಸಿಹನು</span>\nಆವವನು ತೊಲಗೆ ಹರಿ ತಾ ತೊಲಗುವ\nಆವವನು ದೇಹದ ಒಳ ಹೊರಗೆನಿಯಾಮಕನು\nಆ ವಾಯು ನಮ್ಮ ಕುಲಗುರುರಾಯನು || 2 ||`,
+                en: `<span class="phrase-highlight">Avavanu dehadolagiralu hari ta nelesihanu</span>\nAvavanu tolage hari ta tolaguva\nAvavanu dehadolahorage niyamakanu\nA vayu namma kula guru rayanu || 2 ||`,
+                rawKn: `ಆವವನು ದೇಹದೊಳಗಿರಲು ಹರಿ ನೆಲಸಿಹನು\nಆವವನು ತೊಲಗೆ ಹರಿ ತಾ ತೊಲಗುವ\nಆವವನು ದೇಹದ ಒಳ ಹೊರಗೆನಿಯಾಮಕನು\nಆ ವಾಯು ನಮ್ಮ ಕುಲಗುರುರಾಯನು || 2 ||`,
+                rawEn: `Avavanu dehadolagiralu hari ta nelesihanu\nAvavanu tolage hari ta tolaguva\nAvavanu dehadolahorage niyamakanu\nA vayu namma kula guru rayanu || 2 ||`
+            },
+            {
+                section: 'pallavi',
+                id: 3,
+                num: '3',
+                group: 'group-1',
+                kn: `<span class="phrase-highlight">ಕರಣಾಭಿಮಾನಿ ಸುರರು ದೇಹವ ಬಿಡಲು</span>\n<span class="phrase-highlight">ಕುರುಡ ಕಿವುಡ ಮೂಕನೆಂದೆನಿಸುವ</span>\nಪರಮ ಮುಖ್ಯಪ್ರಾಣ ತೊಲಗಲಾ ದೇಹವನು\nಅರಿತು ಪೆಣವೆಂದು ಪೇಳುವರು ಬುಧ ಜನ || 3 ||`,
+                en: `<span class="phrase-highlight">Karanabhimani suraru dehava bidalu</span>\n<span class="phrase-highlight">Kuruda kivuda mukanendenisuva</span>\nParama mukhyaprana tolagala dehavanu\nAritu penanendu pelvaru budhajana || 3 ||`,
+                rawKn: `ಕರಣಾಭಿಮಾನಿ ಸುರರು ದೇಹವ ಬಿಡಲು\nಕುರುಡ ಕಿವುಡ ಮೂಕನೆಂದೆನಿಸುವ\nಪರಮ ಮುಖ್ಯಪ್ರಾಣ ತೊಲಗಲಾ ದೇಹವನು\nಅರಿತು ಪೆಣವೆಂದು ಪೇಳುವರು ಬುಧ ಜನ || 3 ||`,
+                rawEn: `Karanabhimani suraru dehava bidalu\nKuruda kivuda mukanendenisuva\nParama mukhyaprana tolagala dehavanu\nAritu penanendu pelvaru budhajana || 3 ||`
+            },
+            {
+                section: 'pallavi',
+                id: 4,
+                num: '4',
+                group: 'group-1',
+                kn: `<span class="phrase-highlight">ಸುರರೊಳಗೆ ನರರೊಳಗೆ ಸರ್ವ ಭೂತಗಳೊಳಗೆ</span>\nಪರತರನೆನಿಸಿ ನಿಯಾಮಿಸಿ ನೆಲಸಿಹ\nಹರಿಯನಲ್ಲದೆ ಬಗೆಯ ಅನ್ಯರನು ಲೋಕದೊಳು\nಗುರು ಕುಲ ತಿಲಕ ಮುಖ್ಯಪವಮಾನನು || 4 ||`,
+                en: `<span class="phrase-highlight">Surarolage nararolage sarvabhutagalolage</span>\nParataranenisi nemadi (niyamisi) nelesiha\nHariyanallade bageyanannyaranu lokadolu\nGurukulatilaka mukhya pavamananu || 4 ||`,
+                rawKn: `ಸುರರೊಳಗೆ ನರರೊಳಗೆ ಸರ್ವ ಭೂತಗಳೊಳಗೆ\nಪರತರನೆನಿಸಿ ನಿಯಾಮಿಸಿ ನೆಲಸಿಹ\nಹರಿಯನಲ್ಲದೆ ಬಗೆಯ ಅನ್ಯರನು ಲೋಕದೊಳು\nಗುರು ಕುಲ ತಿಲಕ ಮುಖ್ಯಪವಮಾನನು || 4 ||`,
+                rawEn: `Surarolage nararolage sarvabhutagalolage\nParataranenisi nemadi (niyamisi) nelesiha\nHariyanallade bageyanannyaranu lokadolu\nGurukulatilaka mukhya pavamananu || 4 ||`
+            },
+            {
+                section: 'hanumavatara',
+                sectionTitle: { kn: '|| ಹನುಮಾವತಾರ ||', en: '|| HANUMAVATARA ||' },
+                id: 5,
+                num: '5',
+                group: 'group-1',
+                kn: `<span class="phrase-highlight">ತ್ರೇತೆಯಲಿ ರಘುಪತಿಯ ಸೇವೆ</span> ಮಾಡುವೆನೆಂದು\nವಾತ ಸುತ ಹನುಮಂತನೆಂದೆನಿಸಿದ\nಪೋತ ಭಾವದಿ ತರಣಿ ಬಿಂಬಕ್ಕೆ ಲಂಘಿಸಿದ\nಈತಗೆಣೆಯಾರು ಮೂರ್ಲೋಕದೊಳಗೆ || 5 ||`,
+                en: `<span class="phrase-highlight">Treteyali raghupatiya seve</span> maduvenendu\nVatasuta hanumantanendenisida\nPotabhavadi taranibimbake langhisida\nItagene yaru murlokadolage || 5 ||`,
+                rawKn: `ತ್ರೇತೆಯಲಿ ರಘುಪತಿಯ ಸೇವೆ ಮಾಡುವೆನೆಂದು\nವಾತ ಸುತ ಹನುಮಂತನೆಂದೆನಿಸಿದ\nಪೋತ ಭಾವದಿ ತರಣಿ ಬಿಂಬಕ್ಕೆ ಲಂಘಿಸಿದ\nಈತಗೆಣೆಯಾರು ಮೂರ್ಲೋಕದೊಳಗೆ || 5 ||`,
+                rawEn: `Treteyali raghupatiya seve maduvenendu\nVatasuta hanumantanendenisida\nPotabhavadi taranibimbake langhisida\nItagene yaru murlokadolage || 5 ||`
+            },
+            {
+                section: 'hanumavatara',
+                id: 6,
+                num: '6',
+                group: 'group-2',
+                kn: `ತರಣಿಗಭಿಮುಖನಾಗಿ ಶಬ್ದ ಶಾಸ್ತ್ರವ ರಚಿಸಿ\nಉರವಣಿಸಿ ಹಿಂದು ಮುಂದಾಗಿ\nನಡೆದ ಪರಮ ಪವಮಾನಸುತ ಉದಯಾಸ್ತ\nಶೈಲಗಳಭರದಿಯೈದಿದಗೀತಗುಪಮೆಉಂಟೇ || 6 ||`,
+                en: `Taranigabhimukhavagi shabdashastrava pathisi\nUravanisi hindumundagi nadeda\nParama pavamana udayasta shailagala\nBharadi aidida etagupameyunte || 6 ||`,
+                rawKn: `ತರಣಿಗಭಿಮುಖನಾಗಿ ಶಬ್ದ ಶಾಸ್ತ್ರವ ರಚಿಸಿ\nಉರವಣಿಸಿ ಹಿಂದು ಮುಂದಾಗಿ\nನಡೆದ ಪರಮ ಪವಮಾನಸುತ ಉದಯಾಸ್ತ\nಶೈಲಗಳಭರದಿಯೈದಿದಗೀತಗುಪಮೆಉಂಟೇ || 6 ||`,
+                rawEn: `Taranigabhimukhavagi shabdashastrava pathisi\nUravanisi hindumundagi nadeda\nParama pavamana udayasta shailagala\nBharadi aidida etagupameyunte || 6 ||`
+            },
+            {
+                section: 'hanumavatara',
+                id: 7,
+                num: '7',
+                group: 'group-2',
+                kn: `ಅಖಿಳವೇದಗಳ ಸಾರ ಪಠಿಸಿದನು ಮುನ್ನಲ್ಲಿ\nನಿಖಿಳ ವ್ಯಾಕರಣಗಳ ಇವ ಪಠಿಸಿದ\nಮುಖದಲ್ಲಿ ಕಿಂಚಿದಪ ಶಬ್ದ ಇವಗಿಲ್ಲೆಂದು\nಮುಖ್ಯಪ್ರಾಣನನು ರಾಮನನುಕರಿಸಿದ || 7 ||`,
+                en: `Akhilavedagala sarava pathisidanu munnalli\nNikhila vyakaranagala iva pelida\nMukhadalli kinchidapashabda ivagillendu\nMukhyapranananu ramananukarisida || 7 ||`,
+                rawKn: `ಅಖಿಳವೇದಗಳ ಸಾರ ಪಠಿಸಿದನು ಮುನ್ನಲ್ಲಿ\nನಿಖಿಳ ವ್ಯಾಕರಣಗಳ ಇವ ಪಠಿಸಿದ\nಮುಖದಲ್ಲಿ ಕಿಂಚಿದಪ ಶಬ್ದ ಇವಗಿಲ್ಲೆಂದು\nಮುಖ್ಯಪ್ರಾಣನನು ರಾಮನನುಕರಿಸಿದ || 7 ||`,
+                rawEn: `Akhilavedagala sarava pathisidanu munnalli\nNikhila vyakaranagala iva pelida\nMukhadalli kinchidapashabda ivagillendu\nMukhyapranananu ramananukarisida || 7 ||`
+            },
+            {
+                section: 'hanumavatara',
+                id: 8,
+                num: '8',
+                group: 'group-2',
+                kn: `ತರಣಿಸುತನನು ಕಾಯ್ದು ಶರಧಿಯನು\nನೆರೆ ದಾಟಿ ಧರಣಿ ಸುತೆಯಳಕಂಡು ದನುಜರೊಡನೆ\nಭರದಿ ರಣವನೆ ಮಾಡಿ ಗೆಲಿದು ದಿವ್ಯಾಸ್ತ್ರಗಳ\nಉರುಹಿ ಲಂಕೆಯ ಬಂದ ಹನುಮಂತನು || 8 ||`,
+                en: `Taranisutananu kayda sharadhiyanu neredati\nDharanisuteyala kandu danujarodane\nBharadi ranavanemadi gelidu divyastragala\nUruhi lankeya banda hanumantanu || 8 ||`,
+                rawKn: `ತರಣಿಸುತನನು ಕಾಯ್ದು ಶರಧಿಯನು\nನೆರೆ ದಾಟಿ ಧರಣಿ ಸುತೆಯಳಕಂಡು ದನುಜರೊಡನೆ\nಭರದಿ ರಣವನೆ ಮಾಡಿ ಗೆಲಿದು ದಿವ್ಯಾಸ್ತ್ರಗಳ\nಉರುಹಿ ಲಂಕೆಯ ಬಂದ ಹನುಮಂತನು || 8 ||`,
+                rawEn: `Taranisutananu kayda sharadhiyanu neredati\nDharanisuteyala kandu danujarodane\nBharadi ranavanemadi gelidu divyastragala\nUruhi lankeya banda hanumantanu || 8 ||`
+            },
+            {
+                section: 'hanumavatara',
+                id: 9,
+                num: '9',
+                group: 'group-2',
+                kn: `ಹರಿಗೆಚೂಡಾಮಣಿಯನಿತ್ತು ಹರಿಗಳ ಕೂಡಿ\nಶರಧಿಯನು ಕಟ್ಟಿ ಬಲು ರಕ್ಕಸರನು ಒರಸಿರಣದಲಿ\nದಶ ಶಿರನ ಹುಡಿ ಗುಟ್ಟಿದ\nಮೆರೆದ ಹನುಮಂತ ಬಲವಂತ ಧೀರ || 9 ||`,
+                en: `Harige chudamaniyanittu harigala kudi\nSharadhiyanu katti bahu rakkasaranu\nOrisi ranadali dashashirana hudigutti ta\nMereda hanumanta balavanta dhira || 9 ||`,
+                rawKn: `ಹರಿಗೆಚೂಡಾಮಣಿಯನಿತ್ತು ಹರಿಗಳ ಕೂಡಿ\nಶರಧಿಯನು ಕಟ್ಟಿ ಬಲು ರಕ್ಕಸರನು ಒರಸಿರಣದಲಿ\nದಶ ಶಿರನ ಹುಡಿ ಗುಟ್ಟಿದ\nಮೆರೆದ ಹನುಮಂತ ಬಲವಂತ ಧೀರ || 9 ||`,
+                rawEn: `Harige chudamaniyanittu harigala kudi\nSharadhiyanu katti bahu rakkasaranu\nOrisi ranadali dashashirana hudigutti ta\nMereda hanumanta balavanta dhira || 9 ||`
+            },
+            {
+                section: 'hanumavatara',
+                id: 10,
+                num: '10',
+                group: 'group-3',
+                kn: `ಉರಗಬಂಧಕೆ ಸಿಲುಕಿ ಕಪಿವರರು ಮೈಮರೆಯೆ\nತರಣಿ ಕುಲ ತಿಲಕನಾಜ್ಞೆಯ ತಾಳಿದಗಿರಿಸಹಿತ\nಸಂಜೀವನವ ಕಿತ್ತು ತಂದಿತ್ತ ಹರಿವರಗೆ\nಸರಿಯುಂಟೆ ಹನುಮಂತಗೆ || 10 ||`,
+                en: `Uragabandhake siluki kapivararu mai mareye\nTaranikulatilakanagneyane tali\nGirisahita sanjivanava kittu tanditta (tanditta)\nHarivarage sariyunte hanumantage || 10 ||`,
+                rawKn: `ಉರಗಬಂಧಕೆ ಸಿಲುಕಿ ಕಪಿವರರು ಮೈಮರೆಯೆ\nತರಣಿ ಕುಲ ತಿಲಕನಾಜ್ಞೆಯ ತಾಳಿದಗಿರಿಸಹಿತ\nಸಂಜೀವನವ ಕಿತ್ತು ತಂದಿತ್ತ ಹರಿವರಗೆ\nಸರಿಯುಂಟೆ ಹನುಮಂತಗೆ || 10 ||`,
+                rawEn: `Uragabandhake siluki kapivararu mai mareye\nTaranikulatilakanagneyane tali\nGirisahita sanjivanava kittu tanditta (tanditta)\nHarivarage sariyunte hanumantage || 10 ||`
+            },
+            {
+                section: 'hanumavatara',
+                id: 11,
+                num: '11',
+                group: 'group-3',
+                kn: `ವಿಜಯರಘುಪತಿ ಮೆಚ್ಚಿ ಧರಣಿ ಸುತೆಯಳಿಗೀಯೆ\nಭಜಿಸಿ ಮೌಕ್ತಿಕದ ಹಾರವನು ಪಡೆದ\nಅಜ ಪದವಿಯನು ರಾಮ ಕೊಡುವೆನೆನೆ ಹನುಮಂತ\nನಿಜ ಭಕುತಿಯನೆ ಬೇಡಿ ವರವ ಪಡೆದ || 11 ||`,
+                en: `Vijaya raghupati mechchi dharanisuteyaligiye\nBhajisi mouktikada haravanu padeda\nAjapadaviyanu rama koduvenene hanumanta\nNijabhakutiyane bedi varava padeda || 11 ||`,
+                rawKn: `ವಿಜಯರಘುಪತಿ ಮೆಚ್ಚಿ ಧರಣಿ ಸುತೆಯಳಿಗೀಯೆ\nಭಜಿಸಿ ಮೌಕ್ತಿಕದ ಹಾರವನು ಪಡೆದ\nಅಜ ಪದವಿಯನು ರಾಮ ಕೊಡುವೆನೆನೆ ಹನುಮಂತ\nನಿಜ ಭಕುತಿಯನೆ ಬೇಡಿ ವರವ ಪಡೆದ || 11 ||`,
+                rawEn: `Vijaya raghupati mechchi dharanisuteyaligiye\nBhajisi mouktikada haravanu padeda\nAjapadaviyanu rama koduvenene hanumanta\nNijabhakutiyane bedi varava padeda || 11 ||`
+            },
+            {
+                section: 'bhimavatara',
+                sectionTitle: { kn: '|| ಭೀಮಾವತಾರ ||', en: '|| BHIMAVATARA ||' },
+                id: 12,
+                num: '12',
+                group: 'group-3',
+                kn: `ಆ ಮಾರುತನೆ ಭೀಮನೆನಿಸಿ ದ್ವಾಪರದಲ್ಲಿ\nಸೋಮ ಕುಲದಲಿ ಜನಿಸಿ ಪಾರ್ಥನೊಡನೆ\nಭೀಮ ವಿಕ್ರಮ ರಕ್ಕಸರ ಮುರಿದೊಟ್ಟಿದ\nಆ ಮಹಿಮನಮ್ಮ ಕುಲ ಗುರು ರಾಯನು || 12 ||`,
+                en: `Aa marutane bhimanenisi dvaparadi\nSomakuladalli janisi partharodane\nBhimavikrama rakkasara muridottida\nAa mahima namma kulagururayanu || 12 ||`,
+                rawKn: `ಆ ಮಾರುತನೆ ಭೀಮನೆನಿಸಿ ದ್ವಾಪರದಲ್ಲಿ\nಸೋಮ ಕುಲದಲಿ ಜನಿಸಿ ಪಾರ್ಥನೊಡನೆ\nಭೀಮ ವಿಕ್ರಮ ರಕ್ಕಸರ ಮುರಿದೊಟ್ಟಿದ\nಆ ಮಹಿಮನಮ್ಮ ಕುಲ ಗುರು ರಾಯನು || 12 ||`,
+                rawEn: `Aa marutane bhimanenisi dvaparadi\nSomakuladalli janisi partharodane\nBhimavikrama rakkasara muridottida\nAa mahima namma kulagururayanu || 12 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 13,
+                num: '13',
+                group: 'group-3',
+                kn: `ಕರದಿಂದಶಿಶು ಭಾವನಾದ ಭೀಮನ ಬಿಡಲು\nಗಿರಿ ವಡೆದು ಶತ ಶೃಂಗವೆಂದೆನಿಸಿತು\nಹರಿಗಳ ಹರಿಗಳಿಂ ಕರಿಗಳ ಕರಿಗಳಿಂ ಅರೆವ ವೀರನಿಗೆ\nಸುರ ನರರು ಸರಿಯೇ || 13 ||`,
+                en: `Karadinda shishubhavanada bhimana bidalu\nGiriyodedu shatashrungavendenesitu\nHarigala harigalim karigala karigalim\nAreda viranige sura nararu sariye || 13 ||`,
+                rawKn: `ಕರದಿಂದಶಿಶು ಭಾವನಾದ ಭೀಮನ ಬಿಡಲು\nಗಿರಿ ವಡೆದು ಶತ ಶೃಂಗವೆಂದೆನಿಸಿತು\nಹರಿಗಳ ಹರಿಗಳಿಂ ಕರಿಗಳ ಕರಿಗಳಿಂ ಅರೆವ ವೀರನಿಗೆ\nಸುರ ನರರು ಸರಿಯೇ || 13 ||`,
+                rawEn: `Karadinda shishubhavanada bhimana bidalu\nGiriyodedu shatashrungavendenesitu\nHarigala harigalim karigala karigalim\nAreda viranige sura nararu sariye || 13 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 14,
+                num: '14',
+                group: 'group-4',
+                kn: `ಕುರುಪಗರಳವನಿಕ್ಕೆ ನೆರೆ ಉಂಡು ತೇಗಿ\nಹಸಿದುರಗಗಳ ಮ್ಯಾಲೆ ಬಿಡಲದನೊರಸಿದ\nಅರಗಿನರಮನೆಯಲ್ಲಿ ಉರಿಯನಿಕ್ಕಲು ವೀರ ಧರಿಸಿ\nಜಾಹ್ನವಿಗೊಯ್ದ ತನ್ನನುಜರ || 14 ||`,
+                en: `Kurupa garalavanikke nereyundu tegi\nUragagala melbidalu adanorasida\nAragina maneyalli uriyanikkalu dhira\nDharisi jahnavigoyda tannanujara || 14 ||`,
+                rawKn: `ಕುರುಪಗರಳವನಿಕ್ಕೆ ನೆರೆ ಉಂಡು ತೇಗಿ\nಹಸಿದುರಗಗಳ ಮ್ಯಾಲೆ ಬಿಡಲದನೊರಸಿದ\nಅರಗಿನರಮನೆಯಲ್ಲಿ ಉರಿಯನಿಕ್ಕಲು ವೀರ ಧರಿಸಿ\nಜಾಹ್ನವಿಗೊಯ್ದ ತನ್ನನುಜರ || 14 ||`,
+                rawEn: `Kurupa garalavanikke nereyundu tegi\nUragagala melbidalu adanorasida\nAragina maneyalli uriyanikkalu dhira\nDharisi jahnavigoyda tannanujara || 14 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 15,
+                num: '15',
+                group: 'group-4',
+                kn: `ಅಲ್ಲಿರ್ದಬಕ ಹಿಡಿಂಬಕರೆಂಬ ರಕ್ಕಸರನಿಲ್ಲದೊರಸಿದ\nಲೋಕ ಕಂಟಕರನು ಬಲ್ಲಿದಸುರರ ಗೆಲಿದು\nದ್ರೌಪದಿಯ ಕೈವಿಡಿದು\nಎಲ್ಲ ಸುಜನರಿಗೆ ಹರುಷವ ತೋರಿದ || 15 ||`,
+                en: `Allidda baka hidimbakaremba rakkasara\nNilladorisida lokakantakaranu\nBallidasurara gelidu droupadi karavididu\nYella sujanarige harushava birida || 15 ||`,
+                rawKn: `ಅಲ್ಲಿರ್ದಬಕ ಹಿಡಿಂಬಕರೆಂಬ ರಕ್ಕಸರನಿಲ್ಲದೊರಸಿದ\nಲೋಕ ಕಂಟಕರನು ಬಲ್ಲಿದಸುರರ ಗೆಲಿದು\nದ್ರೌಪದಿಯ ಕೈವಿಡಿದು\nಎಲ್ಲ ಸುಜನರಿಗೆ ಹರುಷವ ತೋರಿದ || 15 ||`,
+                rawEn: `Allidda baka hidimbakaremba rakkasara\nNilladorisida lokakantakaranu\nBallidasurara gelidu droupadi karavididu\nYella sujanarige harushava birida || 15 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 16,
+                num: '16',
+                group: 'group-4',
+                kn: `ರಾಜಕುಲವಜ್ರನೆನಿಸಿದ ಮಾಗಧನ ಸೀಳಿ\nರಾಜಸೂಯ ಯಾಗವನು ಮಾಡಿಸಿದನು\nಆಜಿಯೊಳು ಕೌರವರ ಬಲವ ಸವರುವೆನೆಂದು\nಮೂಜಗವರಿಯೆ ಕಂಕಣ ಕಟ್ಟಿದ || 16 ||`,
+                en: `Rajakula vajranenisida magadhana sili\nRajasuyayagavanu madisidanu\nAjiyolu kouravara balava savaruvenendu\nMujagavariye kankanakattida || 16 ||`,
+                rawKn: `ರಾಜಕುಲವಜ್ರನೆನಿಸಿದ ಮಾಗಧನ ಸೀಳಿ\nರಾಜಸೂಯ ಯಾಗವನು ಮಾಡಿಸಿದನು\nಆಜಿಯೊಳು ಕೌರವರ ಬಲವ ಸವರುವೆನೆಂದು\nಮೂಜಗವರಿಯೆ ಕಂಕಣ ಕಟ್ಟಿದ || 16 ||`,
+                rawEn: `Rajakula vajranenisida magadhana sili\nRajasuyayagavanu madisidanu\nAjiyolu kouravara balava savaruvenendu\nMujagavariye kankanakattida || 16 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 17,
+                num: '17',
+                group: 'group-4',
+                kn: `ಮಾನನಿಧಿದ್ರೌಪದಿಯ ಮನದಿಂಗಿತವನರಿತು\nದಾನವರ ಸವರಬೇಕೆಂದು ಬ್ಯಾಗಕಾನನವ ಪೊಕ್ಕು\nಕಿಮ್ಮೀರಾದಿಗಳ ತರಿದು\nಮಾನಿನಿಗೆ ಸೌಗಂಧಿಕವನೆ ತಂದ || 17 ||`,
+                en: `Danavara savarabekendu byaga\nMananidhi droupadiya manadingitavanaritu\nKananava pokku kimmiradigala muridu\nManinige sougandhikavane tanda || 17 ||`,
+                rawKn: `ಮಾನನಿಧಿದ್ರೌಪದಿಯ ಮನದಿಂಗಿತವನರಿತು\nದಾನವರ ಸವರಬೇಕೆಂದು ಬ್ಯಾಗಕಾನನವ ಪೊಕ್ಕು\nಕಿಮ್ಮೀರಾದಿಗಳ ತರಿದು\nಮಾನಿನಿಗೆ ಸೌಗಂಧಿಕವನೆ ತಂದ || 17 ||`,
+                rawEn: `Danavara savarabekendu byaga\nMananidhi droupadiya manadingitavanaritu\nKananava pokku kimmiradigala muridu\nManinige sougandhikavane tanda || 17 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 18,
+                num: '18',
+                group: 'group-5',
+                kn: `ದುರುಳ ಕೀಚಕನು ದ್ರೌಪದಿಯ ಚೆಲುವಿಕೆಗೆ\nಮರುಳಾಗಿ ಕರಕರಿಯ ಮಾಡಲು ಅವನಗರಡಿಮನೆಯೊಳು\nಬರಸಿ ಒರಸಿ ಅವನನ್ವಯವ\nಕುರುಪನಟ್ಟಿದ ಮಲ್ಲಕುಲವ ಸವರಿದ || 18 ||`,
+                en: `Durula kichakanu droupadiya cheluvikege\nMarulagi karakariya madalavana\nGaradimaneyolu barasi orisi avananvayava\nKurupanattida mallakulava savarida || 18 ||`,
+                rawKn: `ದುರುಳ ಕೀಚಕನು ದ್ರೌಪದಿಯ ಚೆಲುವಿಕೆಗೆ\nಮರುಳಾಗಿ ಕರಕರಿಯ ಮಾಡಲು ಅವನಗರಡಿಮನೆಯೊಳು\nಬರಸಿ ಒರಸಿ ಅವನನ್ವಯವ\nಕುರುಪನಟ್ಟಿದ ಮಲ್ಲಕುಲವ ಸವರಿದ || 18 ||`,
+                rawEn: `Durula kichakanu droupadiya cheluvikege\nMarulagi karakariya madalavana\nGaradimaneyolu barasi orisi avananvayava\nKurupanattida mallakulava savarida || 18 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 19,
+                num: '19',
+                group: 'group-5',
+                kn: `ಕೌರವರಬಲ ಸವರಿ ವೈರಿಗಳ ನೆಗ್ಗೊತ್ತಿ\nಓರಂತೆ ಕೌರವನ ಮುರಿದು ಮೆರೆದ\nವೈರಿ ದುಶ್ಯಾಸನ್ನ ರಣದಲ್ಲಿ ಎಡೆ ಗೆಡಹಿ\nವೀರ ನರಹರಿಯ ಲೀಲೆಯ ತೋರಿದ || 19 ||`,
+                en: `Kouravara bala savari vairigala neggotti\nOrante kouravana muridu mereda\nVairi dushyasanana ranadali edegedehi (todeya laddagedahi)\nViranarahariya lileya torida || 19 ||`,
+                rawKn: `ಕೌರವರಬಲ ಸವರಿ ವೈರಿಗಳ ನೆಗ್ಗೊತ್ತಿ\nಓರಂತೆ ಕೌರವನ ಮುರಿದು ಮೆರೆದ\nವೈರಿ ದುಶ್ಯಾಸನ್ನ ರಣದಲ್ಲಿ ಎಡೆ ಗೆಡಹಿ\nವೀರ ನರಹರಿಯ ಲೀಲೆಯ ತೋರಿದ || 19 ||`,
+                rawEn: `Kouravara bala savari vairigala neggotti\nOrante kouravana muridu mereda\nVairi dushyasanana ranadali edegedehi (todeya laddagedahi)\nViranarahariya lileya torida || 19 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 20,
+                num: '20',
+                group: 'group-5',
+                kn: `ಗುರುಸುತನನು ಸಂಗರದಿ ನಾರಾಯಣಾಸ್ತ್ರವನು\nಉರವಣಿಸಿ ಬಿಡಲು ಶಸ್ತ್ರವ ಬಿಸುಟರು\nಹರಿ ಕೃಪೆಯ ಪಡೆದಿರ್ದ ಭೀಮ ಹುಂಕಾರದಲಿ\nಹರಿಯ ದಿವ್ಯಾಸ್ತ್ರವನು ನೆರೆ ಅಟ್ಟಿದ || 20 ||`,
+                en: `Gurusutanu sangaradi narayanastravanu\nUravanisi bidalu shastrava bisutaru\nHarikrupeya padedirda bhima hunkaradali\nHariya divyastravanu nere attida || 20 ||`,
+                rawKn: `ಗುರುಸುತನನು ಸಂಗರದಿ ನಾರಾಯಣಾಸ್ತ್ರವನು\nಉರವಣಿಸಿ ಬಿಡಲು ಶಸ್ತ್ರವ ಬಿಸುಟರು\nಹರಿ ಕೃಪೆಯ ಪಡೆದಿರ್ದ ಭೀಮ ಹುಂಕಾರದಲಿ\nಹರಿಯ ದಿವ್ಯಾಸ್ತ್ರವನು ನೆರೆ ಅಟ್ಟಿದ || 20 ||`,
+                rawEn: `Gurusutanu sangaradi narayanastravanu\nUravanisi bidalu shastrava bisutaru\nHarikrupeya padedirda bhima hunkaradali\nHariya divyastravanu nere attida || 20 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 21,
+                num: '21',
+                group: 'group-5',
+                kn: `ಚಂಡವಿಕ್ರಮನು ಗದೆಗೊಂಡು ರಣದಿ\nಭೂಮಂಡಲದೊಳಿದಿರಾಂತ ಖಳರನೆಲ್ಲಾಹಿಂಡಿ\nಬಿಸುಟಿಹ ವೃಕೋದರನ ಪ್ರತಾಪವನುಕಂಡು\nನಿಲ್ಲುವರಾರು ತ್ರಿಭುವನದೊಳು || 21 ||`,
+                en: `Chandavikrama gadegondu ranadolage bhu\nMandaladolidiradanta khalaranella\nHindi bisutida vrukodarana pratapavanu\nKandu nilluvararu tribhuvanadolu || 21 ||`,
+                rawKn: `ಚಂಡವಿಕ್ರಮನು ಗದೆಗೊಂಡು ರಣದಿ\nಭೂಮಂಡಲದೊಳಿದಿರಾಂತ ಖಳರನೆಲ್ಲಾಹಿಂಡಿ\nಬಿಸುಟಿಹ ವೃಕೋದರನ ಪ್ರತಾಪವನುಕಂಡು\nನಿಲ್ಲುವರಾರು ತ್ರಿಭುವನದೊಳು || 21 ||`,
+                rawEn: `Chandavikrama gadegondu ranadolage bhu\nMandaladolidiradanta khalaranella\nHindi bisutida vrukodarana pratapavanu\nKandu nilluvararu tribhuvanadolu || 21 ||`
+            },
+            {
+                section: 'bhimavatara',
+                id: 22,
+                num: '22',
+                group: 'group-6',
+                kn: `ನಾರಿರೋದನಕೇಳಿ ಮನಮರುಗಿ ಗುರುಸುತನ\nಹಾರಿ ಹಿಡಿದು ಶಿರೋರತ್ನ ಕಿತ್ತಿ ತೆಗೆದ\nನೀರೊಳಡಗಿದ್ದ ದುರ್ಯೋಧನನ ಹೊರಗೆಡಹಿ\nಉರುದ್ವಯ ತನ್ನ ಗದೆಯಿಂದ ಮುರಿದ || 22 ||`,
+                en: `Narirodana keli manamarugi gurusutana\nHarhididu shiroratna kitti tegeda\nNiroladagidda duryodhanana horagedahi\nUruyuga tanna gadeyinda murida || 22 ||`,
+                rawKn: `ನಾರಿರೋದನಕೇಳಿ ಮನಮರುಗಿ ಗುರುಸುತನ\nಹಾರಿ ಹಿಡಿದು ಶಿರೋರತ್ನ ಕಿತ್ತಿ ತೆಗೆದ\nನೀರೊಳಡಗಿದ್ದ ದುರ್ಯೋಧನನ ಹೊರಗೆಡಹಿ\nಉರುದ್ವಯ ತನ್ನ ಗದೆಯಿಂದ ಮುರಿದ || 22 ||`,
+                rawEn: `Narirodana keli manamarugi gurusutana\nHarhididu shiroratna kitti tegeda\nNiroladagidda duryodhanana horagedahi\nUruyuga tanna gadeyinda murida || 22 ||`
+            },
+            {
+                section: 'madhvavatara',
+                sectionTitle: { kn: '|| ಮಧ್ವಾವತಾರ ||', en: '|| MADHVAVATARA ||' },
+                id: 23,
+                num: '23',
+                group: 'group-6',
+                kn: `ದಾನವರುಕಲಿಯುಗದೊಳವತರಿಸಿ ವಿಬುಧರೊಳು\nವೇನನ ಮತ ವನರುಹಲದನರಿತು\nಜ್ಞಾನಿ ತಾ ಪವಮಾನ ಭೂತಳದೊಳವತರಿಸಿ\nಮಾನನಿಧಿ ಮಧ್ವಾಖ್ಯನೆಂದೆನಿಸಿದ || 23 ||`,
+                en: `Danavaru kaliyugadolavatarisi vibhudarolu\nVenana matavanaruhaladanaritu\nGyani ta pavamana bhutaladolavatarisi\nMananidhi madhvakhyanendenisida || 23 ||`,
+                rawKn: `ದಾನವರುಕಲಿಯುಗದೊಳವತರಿಸಿ ವಿಬುಧರೊಳು\nವೇನನ ಮತ ವನರುಹಲದನರಿತು\nಜ್ಞಾನಿ ತಾ ಪವಮಾನ ಭೂತಳದೊಳವತರಿಸಿ\nಮಾನನಿಧಿ ಮಧ್ವಾಖ್ಯನೆಂದೆನಿಸಿದ || 23 ||`,
+                rawEn: `Danavaru kaliyugadolavatarisi vibhudarolu\nVenana matavanaruhaladanaritu\nGyani ta pavamana bhutaladolavatarisi\nMananidhi madhvakhyanendenisida || 23 ||`
+            },
+            {
+                section: 'madhvavatara',
+                id: 24,
+                num: '24',
+                group: 'group-6',
+                kn: `ಅರ್ಭಕತನದೊಳೈದಿಬದರಿಯಲಿ\nಮಧ್ವಮುನಿ ನಿರ್ಭಯದಿ ಸಕಳ ಶಾಸ್ತ್ರವ ಪಠಿಸಿದ\nಉರ್ವಿಯೊಳು ಮಾಯೆ ಬೀರಲು ತತ್ವಮಾರ್ಗವನು\nಓರ್ವ ಮಧ್ವಮುನಿ ತೋರ್ದ ಸುಜನರ್ಗೆ || 24 ||`,
+                en: `Arbhakatanadolaidi badariyali madhvamuni\nNirbhayadi sakala shastragala pathisida\nurviyolu amnaya tatvada margavanu)\nOrva madhvamuni torda sujanarge|| 24 ||`,
+                rawKn: `ಅರ್ಭಕತನದೊಳೈದಿಬದರಿಯಲಿ\nಮಧ್ವಮುನಿ ನಿರ್ಭಯದಿ ಸಕಳ ಶಾಸ್ತ್ರವ ಪಠಿಸಿದ\nಉರ್ವಿಯೊಳು ಮಾಯೆ ಬೀರಲು ತತ್ವಮಾರ್ಗವನು\nಓರ್ವ ಮಧ್ವಮುನಿ ತೋರ್ದ ಸುಜನರ್ಗೆ || 24 ||`,
+                rawEn: `Arbhakatanadolaidi badariyali madhvamuni\nNirbhayadi sakala shastragala pathisida\nurviyolu amnaya tatvada margavanu)\nOrva madhvamuni torda sujanarge|| 24 ||`
+            },
+            {
+                section: 'madhvavatara',
+                id: 25,
+                num: '25',
+                group: 'group-6',
+                kn: `ಸರ್ವೇಶಹರ ವಿಶ್ವ ಎಲ್ಲ ತಾ ಪುಸಿಯೆಂಬ\nದುರ್ವಾದಿಗಳ ಮತವ ನೆ ಖಂಡಿಸಿ\nಸರ್ವೇಶ ಹರಿ ವಿಶ್ವ ಸತ್ಯವೆಂದರುಹಿ\nದಾಶರ್ವಾದಿ ಗೀರ್ವಾಣ ಸಂತತಿಯಲಿ || 25 ||`,
+                en: `Sarvesha hara, vishwa ella ta pusiyemba\nDurvadigala matava nere khandisi\nSarvesha hari, vishwa satyavendaruhida\nSharvadigirvana santatiyali || 25 ||`,
+                rawKn: `ಸರ್ವೇಶಹರ ವಿಶ್ವ ಎಲ್ಲ ತಾ ಪುಸಿಯೆಂಬ\nದುರ್ವಾದಿಗಳ ಮತವ ನೆ ಖಂಡಿಸಿ\nಸರ್ವೇಶ ಹರಿ ವಿಶ್ವ ಸತ್ಯವೆಂದರುಹಿ\nದಾಶರ್ವಾದಿ ಗೀರ್ವಾಣ ಸಂತತಿಯಲಿ || 25 ||`,
+                rawEn: `Sarvesha hara, vishwa ella ta pusiyemba\nDurvadigala matava nere khandisi\nSarvesha hari, vishwa satyavendaruhida\nSharvadigirvana santatiyali || 25 ||`
+            },
+            {
+                section: 'madhvavatara',
+                id: 26,
+                num: '26',
+                group: 'group-7',
+                kn: `ಏಕವಿಂಶತಿಕುಭಾಷ್ಯಗಳ ಬೇರನು ತರಿದು\nಶ್ರೀಕರಾರ್ಚಿತನೊಲುಮೆ ಶಾಸ್ತ್ರ ರಚಿಸಿ\nಲೋಕತ್ರಯದೊಳಿದ್ದಸುರರು ಆಲಿಸುವಂತೆ\nಆಕಮಲನಾಭಯತಿನಿಕರಕೊರೆದ || 26 ||`,
+                en: `Ekavimshati kubhashyagala beranu taridu\nShrikararchitanolume shastra rachisi\nLokatrayadolidda suraru Alisuvante\nA kamalanabhayati nikaragoreda || 26 ||`,
+                rawKn: `ಏಕವಿಂಶತಿಕುಭಾಷ್ಯಗಳ ಬೇರನು ತರಿದು\nಶ್ರೀಕರಾರ್ಚಿತನೊಲುಮೆ ಶಾಸ್ತ್ರ ರಚಿಸಿ\nಲೋಕತ್ರಯದೊಳಿದ್ದಸುರರು ಆಲಿಸುವಂತೆ\nಆಕಮಲನಾಭಯತಿನಿಕರಕೊರೆದ || 26 ||`,
+                rawEn: `Ekavimshati kubhashyagala beranu taridu\nShrikararchitanolume shastra rachisi\nLokatrayadolidda suraru Alisuvante\nA kamalanabhayati nikaragoreda || 26 ||`
+            },
+            {
+                section: 'madhvavatara',
+                id: 27,
+                num: '27',
+                group: 'group-7',
+                kn: `ಬದರಿಕಾಶ್ರಮಕೆಪುನರಪಿಯೈದಿ ವ್ಯಾಸಮುನಿ\nಪದಕೆರಗಿ ಅಖಿಳ ವೇದಾರ್ಥಗಳನು\nಪದುಮನಾಭನ ಮುಖದಿ ತಿಳಿದು\nಬ್ರಹ್ಮತ್ವಯ್ಯೆದಿದ ಮಧ್ವಮುನಿರಾಯಗಭಿವಂದಿಪೆ || 27 ||`,
+                en: `Badarikashramake punarapiyaidi vyasamuni\nPadakeragi akhila vedarthagalanu\nPadumanabhana mukhadi tilidu brahmatvavaidida\nMadhvamunirayagabhivandipe || 27 ||`,
+                rawKn: `ಬದರಿಕಾಶ್ರಮಕೆಪುನರಪಿಯೈದಿ ವ್ಯಾಸಮುನಿ\nಪದಕೆರಗಿ ಅಖಿಳ ವೇದಾರ್ಥಗಳನು\nಪದುಮನಾಭನ ಮುಖದಿ ತಿಳಿದು\nಬ್ರಹ್ಮತ್ವಯ್ಯೆದಿದ ಮಧ್ವಮುನಿರಾಯಗಭಿವಂದಿಪೆ || 27 ||`,
+                rawEn: `Badarikashramake punarapiyaidi vyasamuni\nPadakeragi akhila vedarthagalanu\nPadumanabhana mukhadi tilidu brahmatvavaidida\nMadhvamunirayagabhivandipe || 27 ||`
+            },
+            {
+                section: 'madhvavatara',
+                id: 28,
+                num: '28',
+                group: 'group-7',
+                kn: `ಜಯ ಜಯತು ದುರ್ವಾದಿ ಮತ\nತಿಮಿರ ಮಾರ್ತಾಂಡ ಜಯ ಜಯತು ವಾದಿಗಜ ಪಂಚಾನನ\nಜಯ ಜಯತು ಚಾರ್ವಾಕ ಗರ್ವಪರ್ವತ ಕುಲಿಶ\nಜಯ ಜಯ ಜಗನ್ನಾಥ ಮಧ್ವನಾಥ || 28 ||`,
+                en: `Jaya jayatu durvadimatatimira martanda\nJaya jayatu vadigajapanchanana\nJaya jayatu charvakagarvaparvata kulisha\nJaya jayatu jagannatha madwanatha || 28 ||`,
+                rawKn: `ಜಯ ಜಯತು ದುರ್ವಾದಿ ಮತ\nತಿಮಿರ ಮಾರ್ತಾಂಡ ಜಯ ಜಯತು ವಾದಿಗಜ ಪಂಚಾನನ\nಜಯ ಜಯತು ಚಾರ್ವಾಕ ಗರ್ವಪರ್ವತ ಕುಲಿಶ\nಜಯ ಜಯ ಜಗನ್ನಾಥ ಮಧ್ವನಾಥ || 28 ||`,
+                rawEn: `Jaya jayatu durvadimatatimira martanda\nJaya jayatu vadigajapanchanana\nJaya jayatu charvakagarvaparvata kulisha\nJaya jayatu jagannatha madwanatha || 28 ||`
+            },
+            {
+                section: 'madhvavatara',
+                id: 29,
+                num: '29',
+                group: 'group-7',
+                kn: `ತುಂಗಕುಲ ಗುರು ವರನ ಹೃತ್ಕಮಲದಲಿನಿಲಿಸಿ\nಭಂಗ ವಿಲ್ಲದೆ ಸುಖದ ಸುಜನಕೆಲ್ಲ\nಹಿಂಗದೆ ಕೊಡುವ ನಮ್ಮ ಮಧ್ವಾಂತರಾತ್ಮಕ\nರಂಗವಿಠಲನೆಂದು ನೆರೆ ಸಾರಿರೈ || 29 ||`,
+                en: `Tungakulaguruvarana hrutkamaladolu nelesi\nBhangavillada sukhava sujanakella\nHingade koduva guru madhwantaratmaka\nRangaviththalanendu nere sarirai || 29 ||`,
+                rawKn: `ತುಂಗಕುಲ ಗುರು ವರನ ಹೃತ್ಕಮಲದಲಿನಿಲಿಸಿ\nಭಂಗ ವಿಲ್ಲದೆ ಸುಖದ ಸುಜನಕೆಲ್ಲ\nಹಿಂಗದೆ ಕೊಡುವ ನಮ್ಮ ಮಧ್ವಾಂತರಾತ್ಮಕ\nರಂಗವಿಠಲನೆಂದು ನೆರೆ ಸಾರಿರೈ || 29 ||`,
+                rawEn: `Tungakulaguruvarana hrutkamaladolu nelesi\nBhangavillada sukhava sujanakella\nHingade koduva guru madhwantaratmaka\nRangaviththalanendu nere sarirai || 29 ||`
+            },
+            {
+                section: 'phalasruthi',
+                sectionTitle: { kn: '|| ಫಲಶ್ರುತಿ ||', en: '|| PHALASRUTHI ||' },
+                id: 30,
+                num: '30',
+                group: 'group-8',
+                kn: `ಸೋಮಸೂರ್ಯೋಪರಾಗದಿ ಗೋಸಹಸ್ರಗಳ\nಭೂಮಿದೇವರಿಗೆ ಸುರನದಿಯ ತಟದಿ\nಶ್ರೀಮುಕುಂದಾರ್ಪಣವೆನುತ ಕೊಟ್ಟ ಫಲವಕ್ಕು\nಈ ಮಧ್ವನಾಮ ಬರೆದೋದಿದವರಿಗೆ || 30 ||`,
+                en: `Somasuryoparagadi go sahasragala\nBhumidevarige suranadiya tatadi\nShri mukundarpanavenuta kotta phalamakku\nee madhvanama baredodidarge || 30 ||`,
+                rawKn: `ಸೋಮಸೂರ್ಯೋಪರಾಗದಿ ಗೋಸಹಸ್ರಗಳ\nಭೂಮಿದೇವರಿಗೆ ಸುರನದಿಯ ತಟದಿ\nಶ್ರೀಮುಕುಂದಾರ್ಪಣವೆನುತ ಕೊಟ್ಟ ಫಲವಕ್ಕು\nಈ ಮಧ್ವನಾಮ ಬರೆದೋದಿದವರಿಗೆ || 30 ||`,
+                rawEn: `Somasuryoparagadi go sahasragala\nBhumidevarige suranadiya tatadi\nShri mukundarpanavenuta kotta phalamakku\nee madhvanama baredodidarge || 30 ||`
+            },
+            {
+                section: 'phalasruthi',
+                id: 31,
+                num: '31',
+                group: 'group-8',
+                kn: `ಪುತ್ರರಿಲ್ಲದವರುಸತ್ಪುತ್ರರೈದುವನು\nಸರ್ವತ್ರದಲಿ ದಿಗ್ವಿಜಯವಹುದನುದಿನ\nಶತ್ರುಗಳು ಕೆಡುವರಪಮೃತ್ಯು ಬರಲಂಜುವುದು\nಸೂತ್ರನಾಮಕನ ಸಂಸ್ತುತಿ ಮಾತ್ರದಿ || 31 ||`,
+                en: `Putrarilladavaru satputraraiduvaru\nSarvatradali digvijayavahudu sakala\nShatrugalu keduvaru apamrutyu baralanjuvudu\nSutranamakana samstuti matradi || 31 ||`,
+                rawKn: `ಪುತ್ರರಿಲ್ಲದವರುಸತ್ಪುತ್ರರೈದುವನು\nಸರ್ವತ್ರದಲಿ ದಿಗ್ವಿಜಯವಹುದನುದಿನ\nಶತ್ರುಗಳು ಕೆಡುವರಪಮೃತ್ಯು ಬರಲಂಜುವುದು\nಸೂತ್ರನಾಮಕನ ಸಂಸ್ತುತಿ ಮಾತ್ರದಿ || 31 ||`,
+                rawEn: `Putrarilladavaru satputraraiduvaru\nSarvatradali digvijayavahudu sakala\nShatrugalu keduvaru apamrutyu baralanjuvudu\nSutranamakana samstuti matradi || 31 ||`
+            },
+            {
+                section: 'phalasruthi',
+                id: 32,
+                num: '32',
+                group: 'group-8',
+                kn: `ಶ್ರೀಪಾದರಾಯಪೇಳಿದ ಮಧ್ವನಾಮ ಸಂ\nತಾಪಕಳೆದಖಿಲ ಸೌಖ್ಯವನೀವುದು\nಶ್ರೀಪತಿ ಜಗನ್ನಾಥವಿಠಲನ ತೋರಿ ಭವ\nಕೂಪಾರದಿಂದ ಕಡೆ ಹಾಯಿಸುವುದು || 32 ||`,
+                en: `Shripadaraja pelida madhvanama\nSantapa kaledakhilasoukhyavanivudu\nShripati shri jagannathaviththalana tori bhava\nKuparadinda kadehayisuvudu || 32 ||`,
+                rawKn: `ಶ್ರೀಪಾದರಾಯಪೇಳಿದ ಮಧ್ವನಾಮ ಸಂ\nತಾಪಕಳೆದಖಿಲ ಸೌಖ್ಯವನೀವುದು\nಶ್ರೀಪತಿ ಜಗನ್ನಾಥವಿಠಲನ ತೋರಿ ಭವ\nಕೂಪಾರದಿಂದ ಕಡೆ ಹಾಯಿಸುವುದು || 32 ||`,
+                rawEn: `Shripadaraja pelida madhvanama\nSantapa kaledakhilasoukhyavanivudu\nShripati shri jagannathaviththalana tori bhava\nKuparadinda kadehayisuvudu || 32 ||`
+            }
+        ];
+
+        function renderShlokas() {
+            const container = document.getElementById('shloka-container');
+            container.innerHTML = '';
+
+            let lastSection = '';
+            shlokasData.forEach(item => {
+                if (item.sectionTitle && item.section !== lastSection) {
+                    lastSection = item.section;
+                    const headerDiv = document.createElement('div');
+                    headerDiv.id = item.section;
+                    headerDiv.className = 'section-header text-center pt-4 pb-2';
+                    headerDiv.innerHTML = `
+                        <h2 class="text-xl md:text-2xl font-bold text-[#8B3A00] bg-amber-200/90 inline-block px-6 py-1.5 rounded-full shadow-sm border border-amber-300">
+                            ${item.sectionTitle[currentLang]}
+                        </h2>
+                    `;
+                    container.appendChild(headerDiv);
+                }
+
+                const card = document.createElement('div');
+                card.className = 'shloka-card p-5 rounded-2xl relative shadow-sm';
+                
+                if (item.num) {
+                    card.id = `shloka-${item.num}`;
+                } else {
+                    card.id = `pallavi-card`;
+                }
+
+                card.setAttribute('data-id', item.id);
+                card.setAttribute('data-group', item.group || '');
+                card.setAttribute('data-text-kn', (item.rawKn || item.kn).toLowerCase());
+                card.setAttribute('data-text-en', (item.rawEn || item.en).toLowerCase());
+                card.setAttribute('data-num', item.num);
+
+                const verseText = (currentLang === 'kn' ? item.kn : item.en);
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-start gap-2 mb-2">
+                        ${item.num ? `<span class="bg-[#8B3A00] text-amber-50 font-semibold text-xs px-2.5 py-0.5 rounded-md">|| ${item.num} ||</span>` : '<span></span>'}
+                    </div>
+                    <div class="text-base md:text-lg font-medium text-amber-950 leading-relaxed whitespace-pre-line">
+                        ${verseText}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'kn' ? 'en' : 'kn';
+            
+            document.getElementById('app-title').innerText = currentLang === 'kn' ? 'ಶ್ರೀ ಮಧ್ವನಾಮ' : 'Madhavanama';
+            document.getElementById('app-subtitle').innerText = currentLang === 'kn' ? 'ಶ್ರೀ ಶ್ರೀಪಾದರಾಜ ವಿರಚಿತ' : 'Composed by Sri Sripadaraja';
+            document.getElementById('lang-btn-label').innerText = currentLang === 'kn' ? 'English' : 'ಕನ್ನಡ';
+            document.getElementById('audio-btn-text').innerText = currentLang === 'kn' ? 'ಆಡಿಯೋ ಕೇಳಿ' : 'Listen Audio';
+            document.getElementById('search-input').placeholder = currentLang === 'kn' ? 'ಶ್ಲೋಕ ಅಥವಾ ಸಂಖ್ಯೆಯನ್ನು ಹುಡುಕಿ...' : 'Search shloka text or number...';
+
+            renderShlokas();
+            filterShlokas();
+            highlightGroupFromHash();
+        }
+
+        function scrollToSection(sectionId, btnElement) {
+            const el = document.getElementById(sectionId);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            const allTabs = document.querySelectorAll('.nav-btn');
+            allTabs.forEach(tab => {
+                tab.className = 'nav-btn bg-amber-200/80 text-[#8B3A00] hover:bg-amber-300 px-3 py-1 rounded-full whitespace-nowrap transition';
+            });
+
+            if (btnElement) {
+                btnElement.className = 'nav-btn bg-[#8B3A00] text-white px-3 py-1 rounded-full whitespace-nowrap transition';
+            }
+        }
+
+        function filterShlokas() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.shloka-card');
+            
+            cards.forEach(card => {
+                const textKn = card.getAttribute('data-text-kn');
+                const textEn = card.getAttribute('data-text-en');
+                const num = card.getAttribute('data-num');
+
+                if (query === '' || textKn.includes(query) || textEn.includes(query) || num.includes(query)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function highlightGroupFromHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (!hash) return;
+
+            // Clear previous active highlights
+            document.querySelectorAll('.shloka-card').forEach(c => c.classList.remove('card-group-active'));
+
+            let targetNumbers = [];
+            
+            // Check if hash matches group-X or single shloka-N
+            if (qrGroups[hash]) {
+                targetNumbers = qrGroups[hash];
+            } else if (hash.startsWith('shloka-')) {
+                const n = parseInt(hash.replace('shloka-', ''));
+                if (!isNaN(n)) targetNumbers = [n];
+            }
+
+            if (targetNumbers.length > 0) {
+                setTimeout(() => {
+                    const firstCard = document.getElementById(`shloka-${targetNumbers[0]}`);
+                    if (firstCard) {
+                        firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+
+                    targetNumbers.forEach(num => {
+                        const card = document.getElementById(`shloka-${num}`);
+                        if (card) {
+                            card.classList.add('card-group-active');
+                        }
+                    });
+                }, 150);
+            }
+        }
+
+        window.onload = function() {
+            renderShlokas();
+            highlightGroupFromHash();
+        };
+
+        window.onhashchange = function() {
+            highlightGroupFromHash();
+        };
+    </script>
+</body>
+</html>
